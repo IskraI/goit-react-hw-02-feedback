@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Statistics } from './Statistics/Statistics';
 import { FeedbackOptions } from 'components/FeedbackOptions/FeedbackOptions';
 import { Section } from 'components/Section/Section';
-// import Statistics from './Statistics';
+import { Notification } from 'components/Notification/Notification';
 
 class App extends Component {
   state = {
@@ -35,7 +35,7 @@ class App extends Component {
 
         <Section title="Statistics">
           {this.countTotalFeedback() === 0 ? (
-            <p> There is no feedback</p>
+            <Notification />
           ) : (
             <Statistics
               good={this.state.good}
