@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Statistics } from './Statistics/Statistics';
-import { FeedbackOptions } from 'components/FeedbackOptions/FeedbackOptions';
-import { Section } from 'components/Section/Section';
-import { Notification } from 'components/Notification/Notification';
+import Statistics from './Statistics';
+import FeedbackOptions from './FeedbackOptions';
+import Section from './Section';
+import Notification from './Notification';
+import css from './App.module.css';
 
 class App extends Component {
   state = {
@@ -11,21 +12,24 @@ class App extends Component {
     bad: 0,
   };
 
-  handleOnClick = event => {
+  handleOnClick = item => {
     this.setState(prevState => {
-      return { [event]: prevState[event] + 1 };
+      return { [item]: prevState[item] + 1 };
     });
   };
 
   countTotalFeedback = () => {
-    return this.state.good + this.state.neutral + this.state.bad;
+    const { good, neutral, bad } = this.state;
+    return good + neutral + bad;
   };
   countPositiveFeedbackPercentage = () => {
     return Math.trunc((this.state.good * 100) / this.countTotalFeedback());
   };
+
   render() {
+    const { good, neutral, bad } = this.state;
     return (
-      <>
+      <div className={css.container}>
         <Section title="Please leave feedback">
           <FeedbackOptions
             options={Object.keys(this.state)}
@@ -35,18 +39,18 @@ class App extends Component {
 
         <Section title="Statistics">
           {this.countTotalFeedback() === 0 ? (
-            <Notification />
+            <Notification message="There is no feedback" />
           ) : (
             <Statistics
-              good={this.state.good}
-              neutral={this.state.neutral}
-              bad={this.state.bad}
+              good={good}
+              neutral={neutral}
+              bad={bad}
               total={this.countTotalFeedback()}
               positivePercentage={this.countPositiveFeedbackPercentage()}
             />
           )}
         </Section>
-      </>
+      </div>
     );
   }
 }
